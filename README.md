@@ -9,8 +9,6 @@ Right now, the only functionality is that the pawn will move to the city that ha
 Also, the "Captured!" and "Sighted!" buttons toggle the interior flags,
 which will be used to determine which actions are available each turn. 
 
-I would like to move the "Draw a card" and "Pass" buttons to be directly to the right of the game board. 
-
 Basic functionality should be that the two/three moves per turn are displayed either above or below the game board, 
 as they are chosen. In order to chose the actions, it should be triggered by clicking on the city,
 or the two buttons on the right. Depending on the city clicked and the city the bio terrorist is in,
