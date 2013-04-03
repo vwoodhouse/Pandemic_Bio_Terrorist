@@ -23,12 +23,13 @@ font-size:20px;
 form
 {
 float:right;
+width:350px;
 }
 #board
 {
 position:relative;
 left:4%;
-float:left;
+/*float:left;*/
 }
 #pawn
 {
