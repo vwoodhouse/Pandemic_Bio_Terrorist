@@ -1,0 +1,45 @@
+/*.css file for pandemic bio-terrorist page*/
+/*created 4/1 by Tori Woodhouse*/
+/*last updated 4/3*/
+body
+{
+margin:0;
+padding:0;
+background-color:#F0FDFF;
+}
+h1
+{
+font-family:Charcoal,Impact,sans-serif;
+color:#450000;
+text-align:center;
+letter-spacing:3px;
+text-shadow: -3px 3px 10px #FF0000;
+}
+p
+{
+font-family:"Courier";
+font-size:20px;
+}
+form
+{
+float:right;
+}
+#board
+{
+position:relative;
+left:4%;
+float:left;
+}
+#pawn
+{
+position:absolute;
+left:-30px;
+top:200px;
+z-index:+1;
+opacity:0.9;
+}
+#buttons
+{
+margin-left:35%;
+float:center;
+}
