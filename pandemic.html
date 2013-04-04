@@ -69,12 +69,36 @@ this.adjacentArray=adjacentArray;
 
 var capturedFlag=new Boolean();
 var hiddenFlag=new Boolean(1);
+var oncePerTurnFlag=new Boolean();
+var driveActionFlag=new Boolean();
+var pawnCity=-1;
+
+function cityChosen(index){
+if (pawnCity==-1)
+	{
+	movePawn(index);
+	}
+else if (canAdjacentMove(index))
+	{
+	document.getElementById("test").innerHTML="Moved to "+places[index].name;
+	movePawn(index);
+	}
+else
+	{
+	document.getElementById("test").innerHTML="You can't move to "+places[index].name;
+	}
+}
 
 function movePawn(index){
+pawnCity=index;
 var pawn=document.getElementById("pawn");
 var city=places[index];
 pawn.style.left=city.pawnL;
 pawn.style.top=city.pawnT;
+}
+
+function canAdjacentMove(city){
+return new Boolean(places[pawnCity].adjacentArray.indexOf(city));
 }
 
 function capturedButton(){
@@ -106,66 +130,84 @@ else
 </head>
 <body>
 <h1>Pandemic Bio-Terrorist</h1>
+<p id="test">Testing text is added here</p>
+<div id="oneturn">
+<form>
+<fieldset>
+<legend>Choose your action</legend>
+<select id="action">
+<option value="default">Select one Action</option>
+<option value="drive">Drive/Ferry to</option>
+<option value="direct">Direct Flight to</option>
+<option value="charter">Chartered Flight to</option>
+<option value="local">Infect Locally in</option>
+<option value="remote">Infect Remotely in</option>
+<option value="sabotage">Sabotage the Research Station in</option>
+<option value="escape" disabled>Escape to</option>
+<option value="card">Draw a card</option>
+<option value="pass">Pass</option>
+</select>
+<button id="next" type="button">Next</button>
+<button type="button">Reset Turn</button>
+</fieldset>
+</form>
+</div>
+<script>movePawn(0)</script>
 <div id="board">
 <img src="pandemic pics/BestGameBoard.jpg" alt="Pandemic Game Board"
 width="1009" height="450" usemap="#boardimg">
 <span id="pawn"><img src="pandemic pics/NewPawn.png" alt="The Bio Terrorist's pawn"
-width="25" height="51"></span>
+width="25" height="51" onclick="cityChosen(pawnCity)"></span>
 <map name="boardimg">
-<area shape="circle" coords="56,135,13" alt="San Francisco" onclick="movePawn(0)">
-<area shape="circle" coords="68,194,13" alt="Los Angeles" onclick="movePawn(1)">
-<area shape="circle" coords="138,217,13" alt="Mexico City" onclick="movePawn(3)">
-<area shape="circle" coords="146,103,13" alt="Chicago" onclick="movePawn(2)">
-<area shape="circle" coords="181,342,13" alt="Lima" onclick="movePawn(5)">
-<area shape="circle" coords="186,156,13" alt="Atlanta" onclick="movePawn(4)">
-<area shape="circle" coords="203,426,13" alt="Santiago" onclick="movePawn(7)">
-<area shape="circle" coords="219,105,13" alt="Toronto" onclick="movePawn(6)">
-<area shape="circle" coords="227,267,13" alt="Bogota" onclick="movePawn(8)">
-<area shape="circle" coords="239,205,13" alt="Miami" onclick="movePawn(9)">
-<area shape="circle" coords="267,156,13" alt="Washington" onclick="movePawn(10)">
-<area shape="circle" coords="279,412,13" alt="Buenos Aires" onclick="movePawn(11)">
-<area shape="circle" coords="291,105,13" alt="New York" onclick="movePawn(12)">
-<area shape="circle" coords="326,352,13" alt="Sao Paulo" onclick="movePawn(13)">
-<area shape="circle" coords="407,136,13" alt="Madrid" onclick="movePawn(14)">
-<area shape="circle" coords="413,58,13" alt="London" onclick="movePawn(15)">
-<area shape="circle" coords="468,253,13" alt="Lagos" onclick="movePawn(18)">
-<area shape="circle" coords="469,98,13" alt="Paris" onclick="movePawn(16)">
-<area shape="circle" coords="474,172,13" alt="Algiers" onclick="movePawn(17)">
-<area shape="circle" coords="490,42,13" alt="Essen" onclick="movePawn(19)">
-<area shape="circle" coords="506,306,13" alt="Kinshasa" onclick="movePawn(20)">
-<area shape="circle" coords="527,86,13" alt="Milan" onclick="movePawn(21)">
-<area shape="circle" coords="538,192,13" alt="Ciaro" onclick="movePawn(22)">
-<area shape="circle" coords="543,368,13" alt="Johannesburg" onclick="movePawn(23)">
-<area shape="circle" coords="556,127,13" alt="Istanbul" onclick="movePawn(25)">
-<area shape="circle" coords="565,30,13" alt="St. Petersburg" onclick="movePawn(26)">
-<area shape="circle" coords="562,248,13" alt="Khartoum" onclick="movePawn(24)">
-<area shape="circle" coords="613,68,13" alt="Moscow" onclick="movePawn(27)">
-<area shape="circle" coords="608,156,13" alt="Baghdad" onclick="movePawn(28)">
-<area shape="circle" coords="616,219,13" alt="Riyadh" onclick="movePawn(29)">
-<area shape="circle" coords="660,114,13" alt="Tehran" onclick="movePawn(30)">
-<area shape="circle" coords="663,171,13" alt="Karachi" onclick="movePawn(31)">
-<area shape="circle" coords="679,241,13" alt="Mumbai" onclick="movePawn(32)">
-<area shape="circle" coords="727,148,13" alt="Delhi" onclick="movePawn(33)">
-<area shape="circle" coords="737,271,13" alt="Chennai" onclick="movePawn(34)">
-<area shape="circle" coords="783,174,13" alt="Kolkata" onclick="movePawn(35)">
-<area shape="circle" coords="791,237,13" alt="Bangkok" onclick="movePawn(36)">
-<area shape="circle" coords="798,308,13" alt="Jakarta" onclick="movePawn(37)">
-<area shape="circle" coords="814,88,13" alt="Beijing" onclick="movePawn(38)">
-<area shape="circle" coords="826,146,13" alt="Shanghai" onclick="movePawn(39)">
-<area shape="circle" coords="836,199,13" alt="Hong Kong" onclick="movePawn(40)">
-<area shape="circle" coords="849,265,13" alt="Ho Chi Minh City" onclick="movePawn(41)">
-<area shape="circle" coords="891,89,13" alt="Seoul" onclick="movePawn(42)">
-<area shape="circle" coords="906,197,13" alt="Taipei" onclick="movePawn(43)">
-<area shape="circle" coords="914,263,13" alt="Manila" onclick="movePawn(44)">
-<area shape="circle" coords="955,125,13" alt="Tokyo" onclick="movePawn(46)">
-<area shape="circle" coords="953,174,13" alt="Osaka" onclick="movePawn(45)">
-<area shape="circle" coords="973,391,13" alt="Sydney" onclick="movePawn(47)">
+<area shape="circle" coords="56,135,13" alt="San Francisco" onclick="cityChosen(0)">
+<area shape="circle" coords="68,194,13" alt="Los Angeles" onclick="cityChosen(1)">
+<area shape="circle" coords="138,217,13" alt="Mexico City" onclick="cityChosen(3)">
+<area shape="circle" coords="146,103,13" alt="Chicago" onclick="cityChosen(2)">
+<area shape="circle" coords="181,342,13" alt="Lima" onclick="cityChosen(5)">
+<area shape="circle" coords="186,156,13" alt="Atlanta" onclick="cityChosen(4)">
+<area shape="circle" coords="203,426,13" alt="Santiago" onclick="cityChosen(7)">
+<area shape="circle" coords="219,105,13" alt="Toronto" onclick="cityChosen(6)">
+<area shape="circle" coords="227,267,13" alt="Bogota" onclick="cityChosen(8)">
+<area shape="circle" coords="239,205,13" alt="Miami" onclick="cityChosen(9)">
+<area shape="circle" coords="267,156,13" alt="Washington" onclick="cityChosen(10)">
+<area shape="circle" coords="279,412,13" alt="Buenos Aires" onclick="cityChosen(11)">
+<area shape="circle" coords="291,105,13" alt="New York" onclick="cityChosen(12)">
+<area shape="circle" coords="326,352,13" alt="Sao Paulo" onclick="cityChosen(13)">
+<area shape="circle" coords="407,136,13" alt="Madrid" onclick="cityChosen(14)">
+<area shape="circle" coords="413,58,13" alt="London" onclick="cityChosen(15)">
+<area shape="circle" coords="468,253,13" alt="Lagos" onclick="cityChosen(18)">
+<area shape="circle" coords="469,98,13" alt="Paris" onclick="cityChosen(16)">
+<area shape="circle" coords="474,172,13" alt="Algiers" onclick="cityChosen(17)">
+<area shape="circle" coords="490,42,13" alt="Essen" onclick="cityChosen(19)">
+<area shape="circle" coords="506,306,13" alt="Kinshasa" onclick="cityChosen(20)">
+<area shape="circle" coords="527,86,13" alt="Milan" onclick="cityChosen(21)">
+<area shape="circle" coords="538,192,13" alt="Ciaro" onclick="cityChosen(22)">
+<area shape="circle" coords="543,368,13" alt="Johannesburg" onclick="cityChosen(23)">
+<area shape="circle" coords="556,127,13" alt="Istanbul" onclick="cityChosen(25)">
+<area shape="circle" coords="565,30,13" alt="St. Petersburg" onclick="cityChosen(26)">
+<area shape="circle" coords="562,248,13" alt="Khartoum" onclick="cityChosen(24)">
+<area shape="circle" coords="613,68,13" alt="Moscow" onclick="cityChosen(27)">
+<area shape="circle" coords="608,156,13" alt="Baghdad" onclick="cityChosen(28)">
+<area shape="circle" coords="616,219,13" alt="Riyadh" onclick="cityChosen(29)">
+<area shape="circle" coords="660,114,13" alt="Tehran" onclick="cityChosen(30)">
+<area shape="circle" coords="663,171,13" alt="Karachi" onclick="cityChosen(31)">
+<area shape="circle" coords="679,241,13" alt="Mumbai" onclick="cityChosen(32)">
+<area shape="circle" coords="727,148,13" alt="Delhi" onclick="cityChosen(33)">
+<area shape="circle" coords="737,271,13" alt="Chennai" onclick="cityChosen(34)">
+<area shape="circle" coords="783,174,13" alt="Kolkata" onclick="cityChosen(35)">
+<area shape="circle" coords="791,237,13" alt="Bangkok" onclick="cityChosen(36)">
+<area shape="circle" coords="798,308,13" alt="Jakarta" onclick="cityChosen(37)">
+<area shape="circle" coords="814,88,13" alt="Beijing" onclick="cityChosen(38)">
+<area shape="circle" coords="826,146,13" alt="Shanghai" onclick="cityChosen(39)">
+<area shape="circle" coords="836,199,13" alt="Hong Kong" onclick="cityChosen(40)">
+<area shape="circle" coords="849,265,13" alt="Ho Chi Minh City" onclick="cityChosen(41)">
+<area shape="circle" coords="891,89,13" alt="Seoul" onclick="cityChosen(42)">
+<area shape="circle" coords="906,197,13" alt="Taipei" onclick="cityChosen(43)">
+<area shape="circle" coords="914,263,13" alt="Manila" onclick="cityChosen(44)">
+<area shape="circle" coords="955,125,13" alt="Tokyo" onclick="cityChosen(46)">
+<area shape="circle" coords="953,174,13" alt="Osaka" onclick="cityChosen(45)">
+<area shape="circle" coords="973,391,13" alt="Sydney" onclick="cityChosen(47)">
 </map>
-<form>
-<button type="button">Draw a card</button><br>
-<button type="button">Pass</button>
-<button type="button">Done</button>
-</form>
 </div>
 <span id="buttons"><button type="button" id="hidden" onclick="hiddenButton()">Spotted!</button>
 <button type="button" id="captured" onclick="capturedButton()">Captured!</button></span>
