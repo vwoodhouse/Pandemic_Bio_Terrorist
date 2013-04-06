@@ -14,7 +14,7 @@ var places=new Array();
 places[0]=new place("San Francisco","43px","95px",[1,2,46,44]);
 places[1]=new place("Los Angeles","56px","155px",[0,2,3,47]);
 places[2]=new place("Chicago","133px","65px",[0,1,3,4,6]);
-places[3]=new place("Mexico City","127px","180px",[1,2,5,3,9]);
+places[3]=new place("Mexico City","127px","180px",[1,2,5,8,9]);
 places[4]=new place("Atlanta","173px","116px",[2,9,10]);
 places[5]=new place("Lima","169px","304px",[3,7,8]);
 places[6]=new place("Toronto","206px","66px",[2,10,12]);
@@ -72,13 +72,15 @@ var hiddenFlag=new Boolean(1);
 var oncePerTurnFlag=new Boolean();
 var driveActionFlag=new Boolean();
 var pawnCity=-1;
+var actionCounter=1;
 
 function cityChosen(index){
 if (pawnCity==-1)
 	{
+	document.getElementById("test").innerHTML="Initially moved to "+places[index].name;
 	movePawn(index);
 	}
-else if (canAdjacentMove(index))
+else if (places[pawnCity].adjacentArray.indexOf(index)>=0)
 	{
 	document.getElementById("test").innerHTML="Moved to "+places[index].name;
 	movePawn(index);
@@ -97,19 +99,16 @@ pawn.style.left=city.pawnL;
 pawn.style.top=city.pawnT;
 }
 
-function canAdjacentMove(city){
-return new Boolean(places[pawnCity].adjacentArray.indexOf(city));
-}
-
 function capturedButton(){
 var button=document.getElementById("captured");
+var actions=document.getElementById("actionSelect");
 if (capturedFlag.valueOf()){
-  capturedFlag=new Boolean(0);
+	capturedFlag=0;
 	button.innerHTML="Captured!";
 	}
 else
 	{
-	capturedFlag=new Boolean(1);
+	capturedFlag=1;
 	button.innerHTML="Escaped!";
 	}
 }
@@ -117,42 +116,61 @@ else
 function hiddenButton(){
 var button=document.getElementById("hidden");
 if (hiddenFlag.valueOf()){
-	hiddenFlag=new Boolean(0);
+	hiddenFlag=0;
 	button.innerHTML="Hidden!";
 	}
 else
 	{
-	hiddenFlag=new Boolean(1);
+	hiddenFlag=1;
 	button.innerHTML="Spotted!";
+	}
+}
+
+function actionSelected(){
+var chosenAction=document.getElementById("actionSelect").value;
+var actionToBeFilledIn=checkTheActions();
+if (actionToBeFilledIn!=0){
+	if (chosenAction="pass"){
+
+		}
+	}
+}
+
+function checkTheActions(){
+var firstActionYetToBeDone=0;
+var actionsToCheck=["firstAction","secondAction","thirdAction"];
+for(var i=0;(i<actionsToCheck.length)&&(firstActionYetToBeDone==0);i++){
+	if (document.getElementById(actionsToCheck[i]).innerHTML==""){
+		firstActionYetToBeDone=i+1;
+		}
+	}
+if ((firstActionYetToBeDone==0)||((firstActionYetToBeDone==3)&&(driveActionFlag!))){
+	//do nothing, because there are no more actions left for the turn
+	return 0;
+	}
+else{
+	return firstActionYetToBeDone;
 	}
 }
 </script>
 </head>
 <body>
 <h1>Pandemic Bio-Terrorist</h1>
-<p id="test">Testing text is added here</p>
-<div id="oneturn">
-<form>
-<fieldset>
-<legend>Choose your action</legend>
-<select id="action">
-<option value="default">Select one Action</option>
-<option value="drive">Drive/Ferry to</option>
-<option value="direct">Direct Flight to</option>
-<option value="charter">Chartered Flight to</option>
-<option value="local">Infect Locally in</option>
-<option value="remote">Infect Remotely in</option>
-<option value="sabotage">Sabotage the Research Station in</option>
-<option value="escape" disabled>Escape to</option>
-<option value="card">Draw a card</option>
-<option value="pass">Pass</option>
-</select>
-<button id="next" type="button">Next</button>
-<button type="button">Reset Turn</button>
-</fieldset>
-</form>
+<p id="test">This is testing text</p>
+<div id="oneTurn">
+<table border="1">
+	<tr>
+		<th>First Action</th>
+		<th>Second Action</th>
+		<th>Third Action</th>
+	</tr>
+	<tr>
+		<td id="firstAction">&nbsp;</td>
+		<td id="secondAction">&nbsp;</td>
+		<td id="thirdAction">&nbsp;</td>
+	</tr>
+</table>
 </div>
-<script>movePawn(0)</script>
 <div id="board">
 <img src="pandemic pics/BestGameBoard.jpg" alt="Pandemic Game Board"
 width="1009" height="450" usemap="#boardimg">
@@ -161,12 +179,12 @@ width="25" height="51" onclick="cityChosen(pawnCity)"></span>
 <map name="boardimg">
 <area shape="circle" coords="56,135,13" alt="San Francisco" onclick="cityChosen(0)">
 <area shape="circle" coords="68,194,13" alt="Los Angeles" onclick="cityChosen(1)">
-<area shape="circle" coords="138,217,13" alt="Mexico City" onclick="cityChosen(3)">
 <area shape="circle" coords="146,103,13" alt="Chicago" onclick="cityChosen(2)">
-<area shape="circle" coords="181,342,13" alt="Lima" onclick="cityChosen(5)">
+<area shape="circle" coords="138,217,13" alt="Mexico City" onclick="cityChosen(3)">
 <area shape="circle" coords="186,156,13" alt="Atlanta" onclick="cityChosen(4)">
-<area shape="circle" coords="203,426,13" alt="Santiago" onclick="cityChosen(7)">
+<area shape="circle" coords="181,342,13" alt="Lima" onclick="cityChosen(5)">
 <area shape="circle" coords="219,105,13" alt="Toronto" onclick="cityChosen(6)">
+<area shape="circle" coords="203,426,13" alt="Santiago" onclick="cityChosen(7)">
 <area shape="circle" coords="227,267,13" alt="Bogota" onclick="cityChosen(8)">
 <area shape="circle" coords="239,205,13" alt="Miami" onclick="cityChosen(9)">
 <area shape="circle" coords="267,156,13" alt="Washington" onclick="cityChosen(10)">
@@ -175,17 +193,17 @@ width="25" height="51" onclick="cityChosen(pawnCity)"></span>
 <area shape="circle" coords="326,352,13" alt="Sao Paulo" onclick="cityChosen(13)">
 <area shape="circle" coords="407,136,13" alt="Madrid" onclick="cityChosen(14)">
 <area shape="circle" coords="413,58,13" alt="London" onclick="cityChosen(15)">
-<area shape="circle" coords="468,253,13" alt="Lagos" onclick="cityChosen(18)">
 <area shape="circle" coords="469,98,13" alt="Paris" onclick="cityChosen(16)">
 <area shape="circle" coords="474,172,13" alt="Algiers" onclick="cityChosen(17)">
+<area shape="circle" coords="468,253,13" alt="Lagos" onclick="cityChosen(18)">
 <area shape="circle" coords="490,42,13" alt="Essen" onclick="cityChosen(19)">
 <area shape="circle" coords="506,306,13" alt="Kinshasa" onclick="cityChosen(20)">
 <area shape="circle" coords="527,86,13" alt="Milan" onclick="cityChosen(21)">
 <area shape="circle" coords="538,192,13" alt="Ciaro" onclick="cityChosen(22)">
 <area shape="circle" coords="543,368,13" alt="Johannesburg" onclick="cityChosen(23)">
+<area shape="circle" coords="562,248,13" alt="Khartoum" onclick="cityChosen(24)">
 <area shape="circle" coords="556,127,13" alt="Istanbul" onclick="cityChosen(25)">
 <area shape="circle" coords="565,30,13" alt="St. Petersburg" onclick="cityChosen(26)">
-<area shape="circle" coords="562,248,13" alt="Khartoum" onclick="cityChosen(24)">
 <area shape="circle" coords="613,68,13" alt="Moscow" onclick="cityChosen(27)">
 <area shape="circle" coords="608,156,13" alt="Baghdad" onclick="cityChosen(28)">
 <area shape="circle" coords="616,219,13" alt="Riyadh" onclick="cityChosen(29)">
@@ -204,12 +222,36 @@ width="25" height="51" onclick="cityChosen(pawnCity)"></span>
 <area shape="circle" coords="891,89,13" alt="Seoul" onclick="cityChosen(42)">
 <area shape="circle" coords="906,197,13" alt="Taipei" onclick="cityChosen(43)">
 <area shape="circle" coords="914,263,13" alt="Manila" onclick="cityChosen(44)">
-<area shape="circle" coords="955,125,13" alt="Tokyo" onclick="cityChosen(46)">
 <area shape="circle" coords="953,174,13" alt="Osaka" onclick="cityChosen(45)">
+<area shape="circle" coords="955,125,13" alt="Tokyo" onclick="cityChosen(46)">
 <area shape="circle" coords="973,391,13" alt="Sydney" onclick="cityChosen(47)">
 </map>
 </div>
-<span id="buttons"><button type="button" id="hidden" onclick="hiddenButton()">Spotted!</button>
-<button type="button" id="captured" onclick="capturedButton()">Captured!</button></span>
+<div id="oneAction">
+<span id="toggles">
+<button type="button" id="hidden" onclick="hiddenButton()">Spotted!</button>
+<button type="button" id="captured" onclick="capturedButton()">Captured!</button>
+</span>
+<form>
+<fieldset>
+<legend>Choose your action</legend>
+<select id="actionSelect" onchange="actionSelected()">
+<option value="default">Select one Action</option>
+<option value="drive">Drive/Ferry to</option>
+<option value="direct">Direct Flight to</option>
+<option value="charter">Chartered Flight to</option>
+<option value="local">Infect Locally in</option>
+<option value="remote">Infect Remotely in</option>
+<option value="sabotage">Sabotage the Research Station in</option>
+<option value="escape" disabled>Escape to</option>
+<option value="card">Draw a card</option>
+<option value="pass">Pass</option>
+</select>
+<input type="text" id="cityDisplay" value="Chose a starting City" disabled>
+<button id="next" type="button">Next</button>
+<button type="button">Reset Turn</button>
+</fieldset>
+</form>
+</div>
 </body>
 </html>
